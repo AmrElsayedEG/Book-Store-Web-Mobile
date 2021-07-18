@@ -1,0 +1,61 @@
+{% extends 'base-main.html' %}
+{% load static %}
+{% block extrafiles %} <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<link rel="stylesheet" href="{% static 'css/topper.css' %}">
+<script src="{% static 'js/topper.js' %}"></script>
+
+ {% endblock %}
+{% block title %} Books Hall | Contact Us {% endblock %}
+{% block content %}
+
+{% if status == 1 %}
+
+<script>
+Topper({
+	  title: 'Done',
+	  text: 'Email sent Successfully.',
+	  style: 'success',
+	  type: 'top',
+	  autoclose: true
+	});
+</script>
+
+{% elif status == 2 %}
+
+<script>
+Topper({
+	  title: 'Error',
+	  text: 'Something went wrong, Try again.',
+	  style: 'danger',
+	  type: 'top',
+	  autoclose: false
+	});
+</script>
+
+{% endif %}
+
+    <div class="profile-page">
+        <form class="content-side-PFP" method="post">
+		{% csrf_token %}
+            <h1 class="general-info-PFP"> Contact Us</h1> 
+            <div class="presonal-info-PFP">
+                <div class="full-name-PFP"> 
+                    <input type="text" name="fullname" id="id_full_name" class="name-PFP" placeholder="Full Name" required>
+                    <input type="text" name="email" id= "id_email" class="name-PFP" placeholder="Your E-mail" required>
+                </div>
+		<input type="text" name="subject" id="id_subject" class="email-PFP" placeholder="Subject"required>
+                <textarea name="message" id="id_message" class="email-PFP" placeholder="Message" required></textarea>
+                
+            </div>
+           
+            <input type="submit" class="submit-PFP" value="Submit">
+		
+        </form>
+	    </div>
+
+
+{% endblock %}
+{% block script %}
+    <script src="{% static 'js/appProfile.js' %}"></script>
+
+{% endblock %}

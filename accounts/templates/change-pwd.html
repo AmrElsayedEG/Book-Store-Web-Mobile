@@ -1,0 +1,78 @@
+{% extends 'base-main.html' %}
+{% load static %}
+{% block extrafiles %} <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<link rel="stylesheet" href="{% static 'css/topper.css' %}">
+<script src="{% static 'js/topper.js' %}"></script>
+
+ {% endblock %}
+{% block title %} Books Hall | Change Password {% endblock %}
+{% block content %}
+
+{% if status == 1 %}
+
+<script>
+Topper({
+	  title: 'Done',
+	  text: 'Passwod Changed.',
+	  style: 'success',
+	  type: 'top',
+	  autoclose: true
+	});
+</script>
+
+{% elif status == 2 %}
+
+<script>
+Topper({
+	  title: 'Error',
+	  text: 'Old Password is wrong.',
+	  style: 'danger',
+	  type: 'top',
+	  autoclose: true
+	});
+</script>
+
+{% endif %}
+
+    <div class="profile-page">
+        <form class="content-side-PFP" method="post" onsubmit="return checkEmail(this);">
+		{% csrf_token %}
+            <h1 class="general-info-PFP"> Change Password</h1> 
+            <h3 class="h3-PFP">Personal info</h3>
+            <div class="presonal-info-PFP">
+                <div class="full-name-PFP"> 
+                    <input type="password" name="old_password" class="email-PFP" placeholder="Old Password" >
+                    
+                </div>
+		<input type="password" name="password1" class="email-PFP" placeholder="New Password" >
+                <input type="password" name="password2" class="email-PFP" placeholder="New Password Again">
+                
+            </div>
+            <input type="submit" class="submit-PFP" value="Submit">
+		        </form>
+    </div>
+
+
+{% endblock %}
+{% block script %}
+    <script src="{% static 'js/appProfile.js' %}"></script>
+<script>
+function checkEmail(theForm) {
+    if (theForm.password1.value != theForm.password2.value)
+    {
+        Topper({
+	  title: 'Error',
+	  text: 'Password Dont Match.',
+	  style: 'danger',
+	  type: 'top',
+	  autoclose: false
+	});
+        return false;
+    } else {
+        return true;
+    }
+}
+//-->
+</script>
+</script>
+{% endblock %}

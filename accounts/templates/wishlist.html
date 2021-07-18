@@ -1,0 +1,31 @@
+{% extends 'base-main.html' %}
+{% load static %}
+{% block title %} Books Hall | My Wishlist {% endblock %}
+{% block content %}
+        <div class="wishlist-page">
+            <h1 class="my-WL">My Wishlist</h1>
+	{% if my_w|length > 0 %}
+	{% for item in my_w %}
+            <div class="wishlist-item">
+                <div class="wishlist-item-leftside">
+                    <a href="{% url 'main:book' item.product.slug %}"><img src="{{item.product.main_image.url}}" class="wishlist-item-img"></a> 
+                    <div class="wishlist-item-name">{{item.product.title}}</div>
+                </div>
+                <div class="remove-item-WLP"><form method="post"> {% csrf_token %} <input type="hidden" name="wish-item-id" value="{{item.id}}"> <input type="submit" value="&times;" class="cart-menu-checkout-btn"> </form> </div>
+            </div>
+	{% endfor %}
+	{% else %}
+		<div style="text-align:center">
+			<div><i class="fas fa-book"></i></div>
+			<div> Your wishlist is empty </div>
+
+		</div>
+	{% endif %}
+        </div>
+
+
+
+    {% endblock %}
+{% block script %}
+        <script src="{% static 'js/appWishlist.js' %}"></script>
+{% endblock %}

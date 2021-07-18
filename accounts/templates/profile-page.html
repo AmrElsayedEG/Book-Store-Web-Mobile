@@ -1,0 +1,114 @@
+{% extends 'base-main.html' %}
+{% load static %}
+{% block extrafiles %} <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<link rel="stylesheet" href="{% static 'css/topper.css' %}">
+<script src="{% static 'js/topper.js' %}"></script>
+
+ {% endblock %}
+{% block title %} Books Hall | Edit Personal Info. {% endblock %}
+{% block content %}
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    var input = document.getElementById('id_city');
+    input.value = '{{profile_form.city.value}}';
+ });
+</script>
+
+{% if status == 1 %}
+
+<script>
+Topper({
+	  title: 'Done',
+	  text: 'Changed Successfully.',
+	  style: 'success',
+	  type: 'top',
+	  autoclose: true
+	});
+</script>
+
+{% elif status == 2 %}
+
+<script>
+Topper({
+	  title: 'Error',
+	  text: 'Something went wrong, Try again.',
+	  style: 'danger',
+	  type: 'top',
+	  autoclose: true
+	});
+</script>
+
+{% endif %}
+
+    <div class="profile-page">
+        <form class="content-side-PFP" method="post">
+		{% csrf_token %}
+            <h1 class="general-info-PFP"> General info</h1> 
+            <h3 class="h3-PFP">Personal info</h3>
+            <div class="presonal-info-PFP">
+                <div class="full-name-PFP"> 
+                    <input type="text" name="first_name" id="id_first_name" value="{{ user_form.first_name.value|default_if_none:"" }}" class="name-PFP" placeholder="First name" >
+                    <input type="text" name="last_name" id= "id_last_name" value="{{ user_form.last_name.value|default_if_none:"" }}" class="name-PFP" placeholder="Last name" >
+                </div>
+                <input type="number" name="phone" id="id_phone" class="email-PFP" placeholder="Phone"  value="{{ profile_form.phone.value|default_if_none:"" }}">
+                
+            </div>
+            <h3 class="h3-PFP" >Shipping info</h3>
+            <div class="shipping-info">
+                <input type="text" name="address_1" id="id_address_1" placeholder="Address" class="shipping-input-PFP" value="{{ profile_form.address_1.value|default_if_none:"" }}">
+                <input type="text" name="address_2" id="id_address_2" placeholder="Apartment, suite, etc. (optional)" class="shipping-input-PFP" value="{{ profile_form.address_2.value|default_if_none:"" }}">
+		<div class="address-PFP">
+                    <input class="input-egy-PFP" type="text" placeholder="Egypt"  name="country" value="Egypt" id="id_country" readonly >
+                    <select class="governorates-PFP" name="city" id="id_city" required>
+			<option value="Alexandria">Alexandria</option>
+                        <option value="Aswan">Aswan</option>
+                        <option value="Asyut">Asyut</option>
+                        <option value="Beheira">Beheira</option>
+                        <option value="Beni Suef">Beni Suef</option>
+                        <option value="Cairo">Cairo</option>
+                        <option value="Dakahlia">Dakahlia</option>
+                        <option value="Damietta">Damietta</option>
+                        <option value="Faiyum">Faiyum</option>
+                        <option value="Gharbia">Gharbia</option>
+                        <option value="Giza">Giza</option>
+                        <option value="Ismailia">Ismailia</option>
+                        <option value="Kafr El Sheikh">Kafr El Sheikh</option>
+                        <option value="Luxor">Luxor</option>
+                        <option value="Matruh">Matruh</option>
+                        <option value="Minya">Minya</option>
+                        <option value="Monufia">Monufia</option>
+                        <option value="New Valley">New Valley</option>
+                        <option value="North Sinai">North Sinai</option>
+                        <option value="Port Said">Port Said</option>
+                        <option value="Qalyubia">Qalyubia</option>
+                        <option value="Qena">Qena</option>
+                        <option value="Red Sea">Red Sea</option>
+                        <option value="Sharqia">Sharqia</option>
+                        <option value="Sohag">Sohag</option>
+                        <option value="South Sinai">South Sinai</option>
+                	<option value="Suez">Suez</option>
+                     </select>
+                     <input class="input-zip-PFP" type="text" placeholder="zip code" name="postal_code" id="id_postal_code" value="{{ profile_form.postal_code.value|default_if_none:"" }}">
+                </div>
+            </div>
+            <input type="submit" class="submit-PFP" value="Submit">
+		
+        </form>
+	<input type="button" class="change-password" onclick="location.href='{% url 'accounts:change-pwd' %}';" value="Change password" />
+    </div>
+<style>
+    input[type='number'] {
+    -moz-appearance:textfield;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}
+</style>
+
+{% endblock %}
+{% block script %}
+    <script src="{% static 'js/appProfile.js' %}"></script>
+
+{% endblock %}

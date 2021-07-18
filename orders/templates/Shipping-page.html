@@ -1,0 +1,277 @@
+{% extends 'base-main.html' %}
+
+{% load static %}
+{% block extrafiles %} <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<link rel="stylesheet" href="{% static 'css/topper.css' %}">
+<script src="{% static 'js/topper.js' %}"></script>
+
+ {% endblock %}
+{% block title %} Books Hall | Create Order {% endblock %}
+
+{% block content %}
+
+
+<br><br><br>
+    <div class="Shipping-page">
+        <div class="Shipping-maincontent">
+            <div class="header-part-SPP">
+                <a href="{% url 'main:main_site_home' %}"><div class="logo"><img src="{% static 'img/logo dark.png' %}" alt=""></div></a> 
+                <div class="pages-navigation-SPP">
+                    <li><a href=""> Cart</a></li>
+                        >
+                    <li><a href="">Shipping</a></li>
+                        >
+                    <li><a href="">Payment</a></li>
+                </div>
+            </div>
+            <div class="show-order-summary">
+                <p class="show-order-summary-text">Show order summary</p>
+                <div class="total-summary-price-SPP" id="final_price-2-1">{{cart.get_total_cost}} EGP</div>
+            </div>
+            <div class="order-summary-content">
+                <div class="items-container-purchased-SPP">
+			{% for item in cart %}
+                    <div class="product-container-SPP">
+                        <div class="title-img-container">
+                            <div class="img-container-SPP">
+                                <img src="{{item.product.main_image.url}}" alt="">
+                            </div>
+                            <ul class="name-qty-SPP">
+                                <li>{{item.product.title}}</li>
+                                <li class="quantity-SPP">Qty. <span>{{item.quantity}}</span></li>
+                            </ul>
+                        </div>
+                        
+                        <div class="item-price-SPP">{{item.total_price}} EGP</div>
+                        
+                    </div>
+			{% endfor %}
+                </div>
+		<div class="discount-code" id="coupon_code_container-2">
+		{% if not request.session.d_i %}
+                    <input type="text" id="discount-2" name="discount_code" placeholder="Discound code" class="discound-input">
+                    <button class="discount-apply-btn" id="2">Apply</button>
+		
+		{% endif %}
+                </div>
+                <div class="subtotal-shippingprice-SPP">
+                    
+
+		<div class="shipping-price-list-SPP">
+                        <div class="shipping-price-text-SPP">Shipping</div>
+                        <div class="shipping-price-SPP" style="justify-self: flex-end;" ><span id="shipping-fees-small">0</span>EGP</div>
+                    </div>
+                    <div class="shipping-price-list-SPP">
+                        <div class="shipping-price-text-SPP">Discount</div>
+                        <div class="shipping-price-SPP" style="justify-self: flex-end;" ><span id="new_d_p-2">{{coupon_cont}}</span>%</div>
+                    </div>
+
+                </div>
+                <div class="total-price-list-SPP">
+                    <div class="total-price-text-SPP">Total price</div>
+                    <div  class="total-price-SPP" style="justify-self: flex-end; font-size: 30px;" id="final_price-2">{{cart.get_total_cost}} EGP</div>
+                </div>
+            </div>
+            <div class="contact-information">
+		<form method="post" action="">
+		{% csrf_token %}
+                <label for="input-full-SPP">Contact information</label> 
+                <p></p>
+                <input class="input-full-SPP" type="number" placeholder="Phone" name="phone" id="id_phone" value="{{profile.phone}}" required>
+                <label for="">Shipping info</label>
+                <input class="input-full-SPP" type="text" placeholder="Full name" name="customer_name" id="id_customer_name" value="{{user.first_name}} {{user.last_name}}" required>
+                <input class="input-full-SPP" type="text" placeholder="Address 1" name="address_1" id="id_address_1" value="{{profile.address_1}}" required>
+                <input class="input-full-SPP" type="text" placeholder="Address 2" name="address_2" id="id_address_2" value="{{profile.address_2}}" required>
+                <div class="address-SPP">
+                    <input class="input-egy-SPP" type="text" placeholder="Egypt"  name="country" value="Egypt" id="id_country" readonly >
+                    <select class="governorates-SPP" name="city" id="id_city" required>
+                        <option value="" selected disabled>-------------</option>
+                        <option value="Alexandria">Alexandria</option>
+                        <option value="Aswan">Aswan</option>
+                        <option value="Asyut">Asyut</option>
+                        <option value="Beheira">Beheira</option>
+                        <option value="Beni Suef">Beni Suef</option>
+                        <option value="Cairo">Cairo</option>
+                        <option value="Dakahlia">Dakahlia</option>
+                        <option value="Damietta">Damietta</option>
+                        <option value="Faiyum">Faiyum</option>
+                        <option value="Gharbia">Gharbia</option>
+                        <option value="Giza">Giza</option>
+                        <option value="Ismailia">Ismailia</option>
+                        <option value="Kafr El Sheikh">Kafr El Sheikh</option>
+                        <option value="Luxor">Luxor</option>
+                        <option value="Matruh">Matruh</option>
+                        <option value="Minya">Minya</option>
+                        <option value="Monufia">Monufia</option>
+                        <option value="New Valley">New Valley</option>
+                        <option value="North Sinai">North Sinai</option>
+                        <option value="Port Said">Port Said</option>
+                        <option value="Qalyubia">Qalyubia</option>
+                        <option value="Qena">Qena</option>
+                        <option value="Red Sea">Red Sea</option>
+                        <option value="Sharqia">Sharqia</option>
+                        <option value="Sohag">Sohag</option>
+                        <option value="South Sinai">South Sinai</option>
+                	<option value="Suez">Suez</option>
+                     </select>
+                     <input class="input-zip-SPP" type="text" placeholder="zip code" name="postal_code" id="id_postal_code" value="{{profile.postal_code}}" required>
+                </div>
+                 
+
+		<select class="governorates-SPP" name="payment_method" id="id_payment_method">
+                        <option value="On Delivery" selected>On Delivery</option>
+                        <option value="PayPal">PayPal</option>
+                     </select>
+		
+		<input class="input-full-SPP" type="text" placeholder="Notes" name="notes" id="id_notes">
+                 <div class="return-shippingbtn-SPP">
+                     <div class="return-SPP"><a href="{% url 'cart:cart_detail' %}"><span> < </span> Return to cart</a></div>
+                     <button class="shippingbtn-SPP" type="submit">Order Now</button>
+                 </div>
+            </form>
+            </div>
+            
+        </div>
+        <div class="purchased-items-side">
+            <div class="purchased-items-side-content">
+                <div class="items-container-purchased-SPP">
+		{% for item in cart %}
+                    <div class="product-container-SPP">
+                        <div class="title-img-container">
+                            <div class="img-container-SPP">
+                                <img src="{{item.product.main_image.url}}" alt="">
+                            </div>
+                            <ul class="name-qty-SPP">
+                                <li>{{item.product.title}}</li>
+                                <li class="quantity-SPP">Qty. <span>{{item.quantity}}</span></li>
+                            </ul>
+                        </div>
+                        <div class="item-price-SPP">{{item.total_price}} EGP</div>
+                    </div>
+		{% endfor %}
+                    
+                </div>
+		<div class="discount-code" id="coupon_code_container-1">
+	{% if not request.session.d_i %}
+                    <input type="text" id="discount-1" name="discount_code" placeholder="Discound code" class="discound-input">
+                    <button class="discount-apply-btn" id="1">Apply</button>
+		
+	{% endif %}
+                </div>
+                <div class="subtotal-shippingprice-SPP">
+                    <div class="subtotal-list-SPP">
+                        <div class="subtotal">Subtotal</div>
+                        <div   class="subtotal-price-full-SPP" style="justify-self: flex-end;" >{{cart.get_total_cost}} EGP</div>
+                    </div>
+
+		    <div class="shipping-price-list-SPP">
+                        <div class="shipping-price-text-SPP">Shipping fees</div>
+                        <div class="shipping-price-full-SPP" style="justify-self: flex-end;"><span id="shipping-fees-big">0</span>EGP</div>
+                    </div>
+
+                    <div class="shipping-price-list-SPP">
+                        <div class="shipping-price-text-SPP">Discount</div>
+                        <div class="shipping-price-full-SPP" style="justify-self: flex-end;"><span id="new_d_p-1">{{coupon_cont}}</span>%</div>
+                    </div>
+
+                </div>
+                <div class="total-price-list-SPP">
+                    <div class="total-price-text-SPP">Total price</div>
+                    <div class="total-price-full-SPP" style="justify-self: flex-end; font-size: 30px;" id="final_price-1">{{cart.get_total_cost}} EGP</div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+<!-- AJAX REQUEST -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+function abs(title,msg,color){
+Topper({
+	  title: title,
+	  text: msg,
+	  style: color,
+	  type: 'top',
+	  autoclose: true
+	});
+}
+</script>
+<script>
+// AJAX CALL
+$('.discount-apply-btn').click(function(){
+$.ajax({
+             type: "POST",
+             context: this,
+             url: "{% url 'orders:check-coupon' %}",
+             data: {'discount_code':$('.discount-code #discount-'+this.id).val(), 'csrfmiddlewaretoken': '{{ csrf_token }}'},
+             dataType: "json",
+             success: function(response) {
+		console.log(response);
+		if(response.status == 'Added'){
+		$('#new_d_p-1').html(response.percentage);
+		$('#final_price-1').html(response.new_price + "EGP");
+
+		$('#new_d_p-2').html(response.percentage);
+		$('#final_price-2').html(response.new_price + "EGP");
+		$('#final_price-2-1').html(response.new_price + "EGP");
+
+		$('#coupon_code_container-1').html('');
+		$('#coupon_code_container-2').html('');
+
+		abs('Done', 'Coupon Added.', 'success');
+		}
+		else{
+		abs('Wrong', 'Coupon wrong or you already used it.', 'danger');
+                  }  
+
+
+              }
+
+        });
+
+  })
+</script>
+
+<!-- Update Shipping fees -->
+<script>
+
+// AJAX CALL
+$("#id_city").on('change', function(){
+$.ajax({
+             type: "POST",
+             context: this,
+             url: "{% url 'orders:get-fees' %}",
+             data: {'city':$(this).val(), 'csrfmiddlewaretoken': '{{ csrf_token }}', 'total':$('#final_price-1').html()},
+             dataType: "json",
+             success: function(response) {
+		if (response.status == 'Success'){
+		$('#shipping-fees-big').html(response.fees);
+		$('#final_price-1').html(response.new_price + "EGP");
+
+		$('#shipping-fees-small').html(response.fees);
+		$('#final_price-2').html(response.new_price + "EGP");
+		$('#final_price-2-1').html(response.new_price + "EGP");
+
+		}
+		else{
+		console.log("Error")
+                  }  
+              }
+        });
+ })
+</script>
+<style>
+    input[type='number'] {
+    -moz-appearance:textfield;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}
+</style>
+{% endblock %}
+{% block script %}
+<script src="{% static 'js/appShipping.js' %}"></script>
+{% endblock %}

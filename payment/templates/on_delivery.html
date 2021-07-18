@@ -1,0 +1,20 @@
+{% extends 'base-main.html' %}
+{% load static %}
+{% block title %} Books Hall | Successful {% endblock %}
+
+{% block content %}
+<div style="text-align:center"><br><br><br><br><br><br><br><br>
+  <p>
+    Order submitted and we have emailed you with order details.<br>
+	You may view your <a href="{% url 'accounts:dashboard' %}" style="color:blue;">Dashboard</a> to view your order.
+  </p>
+<i class="fas fa-check" style="font-size: 100px;color: green;"></i>
+    
+  </div>
+</div><br><br><br><br><br><br>
+{% endblock %}
+
+
+{% block script %}
+   <script src="{% static 'js/appShop.js' %}"></script> 
+{% endblock %}

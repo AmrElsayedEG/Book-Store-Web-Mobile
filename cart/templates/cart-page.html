@@ -1,0 +1,102 @@
+{% extends 'base-main.html' %}
+{% load static %}
+{% block title %} Books Hall | Shopping Cart {% endblock %}
+{% block content %}
+    <div class="cart-page">
+        <ul class="cart-titles-list" >
+            <li class="cart-titles-list">Product</li>
+            <li class="cart-titles-list">Price</li>
+            <li class="cart-titles-list">Quantity</li>
+            <li class="cart-titles-list">Total</li>
+        </ul>
+        <ul class="cart-content" >
+	{% if cart %}
+		{% for item in cart %}
+			{% with product=item.product %}
+            <div class="product-details-CP">
+                <div class="img-name-container-CP">
+                   <div class="img-container">
+                    <img src="{{product.main_image.url}}" alt="" class="product-img-CP">
+                   </div> 
+                    <div class="book-name-CP">{{product.title}}</div>
+                </div>
+                <div class="book-price-CP">{{item.price}} EGP</div>
+                <!-- <div class="quantity-container-CP">
+                    <div class="minus-CP">
+                        &minus;
+                    </div>
+                    <div class="quantity-CP">
+                        1
+                    </div>
+                    <div class="plus-CP">
+                        &plus;
+                    </div>
+                   
+                </div> -->
+		<form class="quantity-container-CP" method="post" action="{% url 'cart:cart_add' product.id %}">
+					    			{% csrf_token %}
+
+
+
+
+                {% if product.in_stock_number >= 20 %}
+                                        {{item.update_quantity_form.quantity}}
+                {% else %}
+            <select name="quantity" id="id_quantity">
+                {% with ''|center:product.in_stock_number as range %}
+                {% for i in range %}
+                 <option value="{{ forloop.counter }}" {% if forloop.counter == item.quantity %} selected {% endif %}>{{ forloop.counter }}</option>
+
+                {% endfor %}{% endwith %}
+
+                {% endif %}
+
+</select>
+
+
+					    			{{item.update_quantity_form.update}}
+					    			<input type="submit" value="&#10003;" class="qauntity-submit-CP" style="color: white;background-color: green;">
+		</form>
+                 
+                <div class="book-TP-rem-Cp">
+                    <div class="book-total-price-CP">
+                        {{item.total_price}} EGP
+                     </div>
+                     <div class="remove-product-CP">
+                         <a href="{% url 'cart:cart_remove' product.id%}"> &times; </a>
+                     </div>
+                </div>
+            </div>
+	{% endwith %}
+	{% endfor %}
+	{% else %}
+	No Products
+	{% endif %}
+            
+                
+        </ul>
+        <div class="discount-code">
+	
+        </div>
+        <div class="checkout-total-container">
+		
+          	  
+		<input type="button" class="checkout-CP" onclick="location.href='/orders/create/';" value="Checkout" />
+		
+            <div class="all-products-total-price-CP">
+                <span class="total-dollar-sign">
+                 TOTAL :  {{cart.get_total_cost}} EGP
+                </span>
+            </div>
+        </div>
+	<div class="checkout-total-container" style="text-align: center;">
+		
+		<input type="button" class="checkout-CP" onclick="location.href='/';" value="Continue Shopping" />
+		
+        </div>
+
+    </div>
+{% endblock %}
+{% block script %}
+<script src="{% static 'js/appCart.js' %}"></script>
+{% endblock %}

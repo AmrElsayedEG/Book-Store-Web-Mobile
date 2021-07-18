@@ -1,0 +1,255 @@
+{% extends 'base-main.html' %}
+
+{% load static %}
+
+{% block extrafiles %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<link rel="stylesheet" href="{% static 'css/topper.css' %}">
+<script src="{% static 'js/topper.js' %}"></script>
+
+{% endblock %}
+
+{% block title %} Books Hall | {{book.title}} {% endblock %}
+
+{% block content %}
+
+    <div class="product-page">
+        
+	<div class="book-description-PP">  <!-- BOOK DESCRIPTION -->
+            <img class="book-img-PP" src="{{book.main_image.url}}" alt="Image">
+            <ul class="book-info-PP">
+                    <li class="book-info-list-item-PP product-title-PP "> <div class="product-title-text-PP">{{book.title}}<a class="product-category-link-PP" href="{% url 'main:all_books' %}?cat={{book.category}}"><span class="product-category-PP">/{{book.category}}</span></a></div> </li>
+                    <li class="book-info-list-item-PP product-author-PP">Author : <a class="link-to-author-page" href="{% url 'main:author' book.author.id %}">{{book.author}}</a> </li>
+                    <li class="book-info-list-item-PP product-author-PP">Publisher : <a class="link-to-author-page" href="{% url 'main:publisher' book.publisher.id %}">{{book.publisher}}</a> </li>
+                    <li class="book-info-list-item-PP product-date-PP">Release date : {{book.release_year}}</li>
+                    <li class="book-info-list-item-PP product-pages-PP">Pages : {{book.pages}}</li>
+                    <li class="book-info-list-item-PP product-weight-PP">Weight : {{book.weight}}g</li>
+                    <li class="book-info-list-item-PP product-stock-PP">
+                        <div class="price-container">
+				{% if book.discount_price %}
+                            <div class="product-price-PP" style=" text-decoration:line-through ; text-decoration-thickness: 15%;">
+                                <span>Price : EGP</span>{{book.price}}
+                            </div>
+                            <div class="product-discount-PP"><span>EGP</span>{{book.discount_price}}</div>
+				{% else %}
+		     	    <div class="product-price-PP">
+                                <span>Price : EGP</span>{{book.price}}
+                            </div>
+				{% endif %}
+                        </div>
+			{% if book.in_stock_number <= 10 %}
+                        <div class="product-instock-PP">
+                         <span> In stock :</span> {{book.in_stock_number}} 
+                        </div>
+			{% endif %}
+                    </li>
+                    <!-- <li class="book-info-list-item-PP product-quantity-PP">
+                        <div class="product-quantity-counter-PP">
+                            <div class="minus-container-PP">
+                                <div class="minus-PP">
+                                    &minus;
+                                </div>
+                            </div>
+                            <div class="quantity-PP">
+                                1
+                            </div>
+                            <input type="number" class="a" name="" value="1" id="">
+                            <div class="plus-container-PP">
+                                <div class="plus-PP">
+                                   &plus;
+                                </div>
+                            </div>
+                        </div>
+                    </li> -->
+
+
+                    <li class="book-info-list-item-PP cart-wishlist-PP">
+                            {% if book.in_stock_number > 0 and book.is_product_live == 1 %}
+                      <form method="post" action="{% url 'cart:cart_add' book.id %}">
+			{% csrf_token %}
+			<select name="quantity" id="id_quantity">
+                {% if book.in_stock_number >= 20 %}
+ <option value="1">1</option>
+
+  <option value="2">2</option>
+
+  <option value="3">3</option>
+
+  <option value="4">4</option>
+
+  <option value="5">5</option>
+
+  <option value="6">6</option>
+
+  <option value="7">7</option>
+
+  <option value="8">8</option>
+
+  <option value="9">9</option>
+
+  <option value="10">10</option>
+
+  <option value="11">11</option>
+
+  <option value="12">12</option>
+
+  <option value="13">13</option>
+
+  <option value="14">14</option>
+
+  <option value="15">15</option>
+
+  <option value="16">16</option>
+
+  <option value="17">17</option>
+
+  <option value="18">18</option>
+
+  <option value="19">19</option>
+
+  <option value="20">20</option>
+                {% else %}
+                {% with ''|center:book.in_stock_number as range %}
+                {% for i in range %}
+                 <option value="{{ forloop.counter }}">{{ forloop.counter }}</option>
+
+                {% endfor %}{% endwith %}
+
+                {% endif %}
+
+</select>
+                        <button class="addtocart-PP" type="submit">Add to cart</button>
+                         <!-- <button class="wishlist-PP">Wishlist</button> -->
+		     </form>
+                            {% endif %}
+                    </li>
+            </ul>
+        </div> <!-- BOOK DESCRIPTION  ENDS-->
+        <div class="book-intro-PP"> <!-- BOOK INTRODUCTION -->
+            <h1 class="introduction-title-PP">
+                Description
+            </h1>
+            <div class="introduction-content">
+			{{ book.description|linebreaks}}                
+            </div>
+        </div> <!-- BOOK INTRODUCTION ENDS -->
+
+
+
+
+
+
+
+
+
+
+
+
+        <div class="author-hero-PP"> <!-- AUTHOR INFO -->
+            <img  class="author-hero-img-PP" src="{{ book.author.author_picture.url }}" alt="Author Image">
+            <ul class="author-info-list-PP">
+                <li class="author-info-list-item-PP author-name-PP "> <div class="author-name-text-PP" style="width:auto"> {{ book.author }} </div> </li>
+                <li class="author-info-list-item-PP ">Nationality : {{ book.author.author_nationality }}</li>
+                <li class="author-info-list-item-PP ">Was born : {{ book.author.born }}</li>
+                <h3 class="author-quick-peek-title-PP">Quick Peek</h3>
+                <p class="author-quick-peek-content-PP"> {{ book.author.about_author }} </p>
+            </ul>
+        </div><!-- AUTHOR INFO ENDS -->
+
+
+<h1 class="introduction-title-PP">
+                Recommendations
+            </h1>
+<div class="recommendation-PP"> <!-- BOOK RECOMMENDATION -->
+	
+		{% for reco in reco %}
+             <div class="book-container-PP">
+                <a href="{% url 'main:book' reco.slug %}"><img  class="recommendation-book-img-PP" src="{{ reco.main_image.url }}" alt="Image"></a> 
+                 <div class="recommendation-book-info-IA-PP">
+                     <ul class="recommendation-book-info-PP">
+                         <li class="recommendation-book-title-PP">{{ reco.title }}</li>
+                         <li class="recommendation-book-author-PP">{{ reco.author }}</li>
+				{% if reco.discount_price %}
+                         
+			<div class="price-container">
+                            <li class="recommendation-book-price-PP" style="text-decoration: line-through; text-decoration-thickness: 15%;" ><span>EGP</span>{{ reco.price}}</li>
+                            <li class="recommendation-discount-price-PP"><span>EGP</span>{{ reco.discount_price}}</li>
+                         </div>
+				{% else %}
+			<li class="recommendation-book-price-PP"><span>EGP</span>{{ reco.price}}</li>
+				{% endif %}
+                     </ul>
+                     <ul class="recommendation-book-IA-PP">
+                        
+			<li><a class="wishlist-btn" id="{{ reco.id }}"> {% if reco.id in my_wishlist %}<i class="fas fa-bookmark PP"> {% else %}<i class="far fa-bookmark PP"> {% endif %}</i></a></li>
+                        {% if book.in_stock_number > 0 %}<form method='post' action='{% url 'cart:cart_add' reco.id %}'>{%csrf_token%}
+                            <button class="recommendation-add-to-cart-PP" type='submit'>
+                                +
+                            </button><input type="hidden" name="quantity" value="1">
+                         </form> {% endif %}
+                 </div>
+             </div>
+		{% endfor %}
+        </div> <!-- BOOK RECOMMENDATION ENDS -->
+
+
+    </div>
+
+
+
+
+<!-- AJAX REQUEST -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+function abs(title,msg,color){
+Topper({
+	  title: title,
+	  text: msg,
+	  style: color,
+	  type: 'top',
+	  autoclose: true
+	});
+}
+</script>
+
+<script>
+// AJAX CALL
+$('.wishlist-btn').click(function(){
+{% if user.is_authenticated %}
+$.ajax({
+             type: "POST",
+             url: "{% url 'accounts:wish-req' %}",
+             data: {'wishlist-id': this.id,'csrfmiddlewaretoken': '{{ csrf_token }}'},
+             dataType: "json",
+             context: this,
+             success: function(response) {
+		if(response.status == 'success'){
+		$("#"+ this.id +" i.far").removeClass("far").addClass("fas");
+		//alert("ADDED");
+		abs('Done', 'Item addd to your wishlist.', 'success');
+		}
+		else{
+		$("#"+ this.id +" i.fas").removeClass("fas").addClass("far");
+		abs('Done', 'Item removed from your wishlist.', 'danger');
+                  }  
+
+
+              }
+
+        });
+{% else %}
+abs('Error', 'You need to login to add to WishList', 'danger');
+{% endif %}
+
+  })
+</script>
+
+
+
+
+
+
+{% endblock %}
+{% block script %}
+<script src="{% static 'js/appProduct.js' %}"></script>
+{% endblock %}

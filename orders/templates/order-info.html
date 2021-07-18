@@ -1,0 +1,31 @@
+{% autoescape off %}
+<div style="text-align:center;">
+<h3>Hello {{ fullname }}, </h3><br>
+Your order has been successfully submitted and will be deliverd to you as soon as possible.<br>
+<div class='text-body' style='color:#7d7d62'><br>
+Your Order<br>
+
+ <table style="width:100%;border: 1px solid black;">
+  <tr>
+    <th style="border: 1px solid black;">Title</th>
+    <th style="border: 1px solid black;">Quantity</th>
+    <th style="border: 1px solid black;">Price</th>
+  </tr>
+{% for orders in orders %}
+  <tr>
+    <td style="border: 1px solid black;">{{orders.product.title}}</td>
+    <td style="border: 1px solid black;">{{orders.quantity}}</td>
+    <td style="border: 1px solid black;">{{orders.price}}</td>
+  </tr>
+{% endfor %}
+</table> <br><br>
+Total Price : {{totalprice}}<br><br>
+</div>
+If you have any inqurey please send us a message.<br>
+Sincerely,<br>
+Book Store Team<br>
+<style>
+
+</div>
+</div>
+{% endautoescape %}

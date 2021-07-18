@@ -1,0 +1,43 @@
+{% extends 'base-main.html' %}
+{% load static %}
+{% block title %} Books Hall | Dashboard {% endblock %}
+{% block content %}
+
+    <div class="dashboard-page">
+        <h1 style="margin-bottom: 20px;">Welcome {{ user.first_name }}</h1>
+	<input type="button" class="change-Pinfo-DBP" onclick="location.href='{% url 'accounts:edit-personal' %}';" value="Change personal info." />
+        <table class="dashboard-table">
+            <tr>
+                <th>Order</th>
+                <th>Date</th>
+                <th>Total price</th>
+                <th>Status</th>
+		<th>Paid</th>
+                <th>Order details</th>
+            </tr>
+		{% for order in orders %}
+            <tr>
+                <td>#{{order.id}}</td>
+                <td>{{order.created|date:'m-d-Y'}}</td>
+                <td><span>EGP</span>{{order.get_total_cost}}</td>
+                <td>
+			{% if order.order_status == 'Waiting' %}
+                    <div class="order-status" style="border:yellow solid 2px; color: black;">Waiting</div>
+			{% elif order.order_status == 'Delivering' %}
+		    <div class="order-status" style="border:green solid 2px; color: green;">Delivering</div>
+			{% elif order.order_status == 'Delivered' %}
+		    <div class="order-status" style="border:green solid 2px; color: green;">Delivered</div>
+			{% else %}
+		    <div class="order-status" style="border:red solid 2px; color: red;">Canceled</div>
+			{% endif %}
+                </td>
+		<td> {% if order.is_paid %} <i class="fas fa-check" style="color:green"></i>  {% else %} <i class="fas fa-times" style="color:red"></i> {% endif %}</td>
+                <td class="order-details"><a href="{% url 'accounts:one-order' order.id %}">Details</a></td>
+            </tr>
+		{% endfor %}
+        </table>
+    </div>
+    {% endblock %}
+{% block script %}
+    <script src="{% static 'js/appDashboard.js' %}"></script>
+{% endblock %}

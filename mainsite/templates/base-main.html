@@ -1,0 +1,141 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="{% static 'icons/favicon.ico' %}" type="image/x-icon"> 
+    <link rel="icon" href="{% static 'img/favicon.png' %}">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"> 
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+	{% block extrafiles %} {% endblock %}
+    <title>{% block title %}  {% endblock %}</title>
+</head>
+<body>
+{% load google_analytics_tags %}
+<div style="display:none">
+    <img src="{% google_analytics %}" width="0" height="0" />
+</div>
+    <div class="menu-overlay">
+    </div>
+        <!-- side menu -->
+        <div class="side-menu">
+            <div class="menu-btn-close">&times;</div>
+		<form type="get" action="{% url 'main:search' %}" class="search-form">
+            <input class="search-bar-side-menu" type="text" placeholder="Search" name="search">
+		</form>
+		<a href="/"><li>Home</li></a>
+	{% if user.is_authenticated %}
+           <a href="{% url 'accounts:dashboard' %}"><li>Dashboard</li></a>
+	   <a href="{% url 'accounts:my-wish-list' %}"><li>Wishlist</li></a>
+	{% else %}
+	   <a href="{% url 'accounts:sign-user' %}"><li>Login</li></a>
+	{% endif %}
+		<a href="{% url 'main:all_books' %}"><li>Shop</li></a>
+            
+           <a href="{% url 'cart:cart_detail' %}"><li>Cart</li></a>
+	<a href="{% url 'main:contact-us' %}"><li>Contact</li></a>
+	{% if user.is_authenticated %}
+           <a href="{% url 'accounts:logout' %}" style="color:red"><li>Logout</li></a>
+	{% endif %}
+        </div>
+        <!-- cart menu -->
+        <div class="cart-menu">
+            <div class="cart-btn-close">&times;</div>
+            <div class="cart-menu-content">
+                <div class="cart-menu-products-container">
+		{% for item in cart %}
+		{% with  product=item.product %}
+                    <div class="cart-menu-product">
+                        <div class="cart-menu-product-left-side">                      
+                            <img class="cart-menu-product-img" src="{{product.main_image.url}}" alt="">
+                            <div class="cart-menu-product-name-quantity">
+                                <div class="cart-menu-prodcut-name">{{product.title}}</div>
+                                <div class="cart-menu-product-quantity">Qty. <span>{{item.quantity}}</span></div>
+                            </div>
+                        </div>
+                        <div class="cart-menu-product-price">EGP <span>{{item.total_price}}</span></div>
+                    </div>
+                    
+                    {% endwith %}
+			{% endfor %}
+                    </div>
+                </div>
+                
+                <div class="cart-menu-subtotal">
+                    <div class="cart-menu-sub-total-text">Total </div>
+                    <div class="cart-menu-sub-total-price"> EGP <span>{{cart.get_total_cost}}</span></div>
+                </div>
+                
+               <a class="cart-menucheck-out-link" href="{% url 'cart:cart_detail' %}"><button class="cart-menu-checkout-btn">
+                Checkout
+            </button></a> 
+            </div>
+        </div>
+     <!-- navbar starts -->
+    <nav class="nav">
+        <div class="navbar-container">
+            <ul class="nav-left">
+                <a href="/"><div class="logo"><img src="{{website_layout.logo_dark.url}}" alt=""></div></a> <!-- {% static 'img/logo dark.png' %} -->
+               <a href="/"><li class="navigation-list-item nav-home-btn">Home</li></a> 
+               <a href="{% url 'main:all_books' %}"><li class="navigation-list-item nav-shop-btn">Shop</li></a> 
+            </ul>
+		<form type="get" action="{% url 'main:search' %}">
+             <input type="text" class="search-bar" placeholder="Search" name="search">
+		</form>
+            <ul class="navigation-list"> 
+                
+                <li class="navigation-list-item "><img class="cart" src="{% static 'icons/cart solid dark.png' %}" alt=""></li>
+                <li class="navigation-list-item ">
+                    <div class="menu-btn">
+                        <div class="menu-btn-burger"></div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    
+    <!-- navbar ends -->  
+    
+
+{% block content %}
+
+{% endblock %}
+    <footer id="footer">
+        <div class="footer-content">
+            <div class="footer-left-side">
+                <div class="footer-left-side-list-item">Terms & Conditions Privacy Policy</div>
+                <div class="footer-left-side-list-item">Copyright &COPY; 2021, BookStore</div>
+                <div class="footer-left-side-list-item">Website by New Cairo Students</div>
+                <div class="footer-imp-pages">
+                    {% if user.is_authenticated %}<a href="{% url 'accounts:dashboard' %}"><li>My Profile</li></a> {% else %} <a class="footer-imp-page" href="{% url 'accounts:sign-user' %}">Login</a> {% endif %}
+                    <a class="footer-imp-page" href="/">Home</a>
+                    <a class="footer-imp-page" href="{% url 'main:all_books' %}">Shop</a>
+                </div>
+            </div>
+            <div class="footer-right-side">
+		{% if website_layout.twitter %}
+                <a href="{{website_layout.twitter}}"><div class="footer-social"><i  class="fab fa-twitter"></i></div></a> 
+		{% endif %}
+		{% if website_layout.facebook %}
+                <a href="{{website_layout.facebook}}"><div class="footer-social"><i class="fab fa-facebook-f"></i></div></a>
+		{% endif %}
+		{% if website_layout.instagram %}
+                <a href="{{website_layout.instagram}}"><div class="footer-social"><i class="fab fa-instagram"></i></div></a>
+		{% endif %}
+            </div>
+        </div>
+       
+        <div class="footer-last-section">
+            All rights reserved by the ,&nbsp;<span>Book Store</span>
+        </div>
+
+    </footer>
+{% block script %}
+
+{% endblock %}
+</body>
+</html>

@@ -1,0 +1,308 @@
+* {
+   color: #071D34;
+}
+.stats-navbar {
+    position: fixed;
+    width: 100%;
+    height: 50px;
+    padding: 10px 50px;
+ }
+ .stats-menu-btn {
+    box-shadow: 0px 0px 3px rgba(0, 0, 0, 1);
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: #071D34;
+    cursor: pointer;
+    transition: .2s ease-in-out;
+ }
+ .stats-menu-btn:hover {
+    background:none;
+ }
+ .stats-menu-btn-brgr {
+    width: 30px;
+    height: 3px;
+    background: #f8f8f8;
+    border-radius: 20px;
+ }
+ .stats-menu-btn-brgr::before , .stats-menu-btn-brgr::after {
+    content: '';
+    position: absolute;
+    width: 30px;
+    height: 3px;
+    background:#f8f8f8;
+    border-radius: 20px;
+ }
+ .stats-menu-btn:hover .stats-menu-btn-brgr {
+    background: #071D34;
+ }
+ .stats-menu-btn:hover .stats-menu-btn-brgr::before{
+    background: #071D34;
+ }
+ .stats-menu-btn:hover .stats-menu-btn-brgr::after{
+    background: #071D34;
+ }
+ .stats-menu-btn-brgr::before {
+    transform: translateY(-8px);
+ }
+ .stats-menu-btn-brgr::after {
+    transform: translateY(8px);
+ }
+ .stats-menu {
+    display: none;
+    position: fixed;
+    width: 300px;
+    height: 100vh;
+    background: #071D34;
+ }
+ .stats-menu-close {
+    margin-left: 10px;
+    cursor: pointer;
+    color: #f8f8f8;
+    font-size:50px;
+    width: max-content;
+ }
+ .stats-menu-logo {
+    max-width: 120px;
+    margin-left: 10px;
+    position: absolute;
+    top: 85px;
+    left: 70px;
+ }
+ .stats-menu-list {
+    height: max-content;
+    position: relative;
+    top: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items:center;
+    justify-content: center;
+ }
+ .stats-menu-list-item {
+    cursor: pointer;
+    color: #f8f8f8;
+    font-size: 20px;
+    margin-bottom: 50px;
+    padding-bottom: 2px;
+    width: max-content;
+    text-shadow: 5px 5px 2px rgba(0, 0, 0, 1);
+    transition: .2s ease-in-out;
+    border-bottom: transparent  3px solid;
+ }
+ .stats-menu-list-item:hover {
+    border-bottom: #f8f8f8 3px solid;
+ }
+ .chart-container {
+     width:60%;
+     margin: auto;
+     padding-top: 20px;
+     padding-bottom: 200px;
+ }
+ #myChart {
+    max-height: 600px;
+    margin-bottom: 50px;
+ }
+ .all-active__Products {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    width: 100%;
+ }
+ .all-product-title , .active-product-title {
+    font-size: 1.7vw;
+ }
+ .all-product-number , .active-product-number{
+    width: max-content;
+    margin: 5px  auto;
+    font-size: 3vw;
+ }
+ .all-active__products-page-link-container {
+    width: 100%;
+    position: relative;
+    margin-bottom: 100px;
+ }
+ .all-active__products-link {
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%);
+ }
+ .all-active__products-button {
+    cursor: pointer;
+    padding: 0.5vw 2.5vw;
+    font-size: 1.2vw;
+    background: #071D34;
+    color: #f8f8f8;
+    border: #071D34 solid 2px;
+    border-radius: 7px;
+ }
+ .all-active__products-button:hover {
+   background: none;
+   color: #071D34;
+   border: #071D34 solid 2px;
+ }
+ .publishers-authors-container {
+   display: flex;
+   justify-content: space-between;
+   margin-bottom: 20px;
+   width: 100%;
+ }
+ .publishers-container , .authors-container {
+    position: relative;
+ }
+ .publishers-title , .authors-title{
+   font-size: 1.7vw;
+ }
+ .publishers-number , .authors-number {
+   width: max-content;
+   margin: 5px  auto;
+   font-size: 3vw;
+ }
+ .publishers-page__link  , .authors-page__link{
+   position: absolute;
+   left: 50%;
+   transform: translate(-50%);
+ }
+ .publishers-page__link-button , .authors-page__link-button {
+   cursor: pointer;
+   padding: 0.5vw 2.5vw;
+   font-size: 1.2vw;
+   background: #071D34;
+   color: #f8f8f8;
+   border: #071D34 solid 2px;
+   border-radius: 7px;
+ }
+ .publishers-page__link-button:hover , .authors-page__link-button:hover {
+   background: none;
+   color: #071D34;
+   border: #071D34 solid 2px;
+ }
+ .payment-shipping-info-container {
+ }
+ .payment-shipping-info-row {
+    margin-top: 50px;
+    display: flex;
+    justify-content: space-between;
+ }
+ .OP-title {
+    font-size: 1.5vw;
+ }
+ .OP-number {
+    font-size: 3vw;
+    margin: auto;
+    width: max-content;
+ }
+.payment-shipping-link {
+   position: relative;
+   top: 50px;
+   margin-left: 42%; 
+   transform: translate(-50%);
+}
+.payment-shipping-link button {
+   background: #071D34;
+   font-size: 1.2vw;
+   padding: 1vw 2vw;
+   color: #f8f8f8;
+   border-radius: 0.5vw;
+   border: #071D34 solid 2px;
+   cursor: pointer;
+}
+.payment-shipping-link button:hover {
+   background: none;
+   color: #071D34;
+   border: #071D34 solid 2px;
+}
+
+.payment-shipping-link + form button {
+   position: relative;
+   top: 100px;
+   padding: 0.5vw 1vw;
+   font-size: 1vw;
+   background: #071D34;
+   border: #071D34 solid 2px;
+   border-radius: 0.5vw;
+   color: #f8f8f8;
+   transition: 0.2s;
+   cursor: pointer;
+}
+.payment-shipping-link + form button:hover {
+   background: none;
+   border: #071D34 solid 2px;
+   color: #071D34;
+}
+.payment-shipping-link + form button i{
+   color: #f8f8f8;
+}
+.payment-shipping-link + form button:hover i{
+   color: #071D34;
+}
+.filter-button {
+   padding: 4px 10px;
+   font-size: 1vw;
+   background: #071D34;
+   border: #071D34 solid 1px;
+   color: #f8f8f8;
+   transition: 0.2s;
+   cursor: pointer;
+}
+.filter-button:hover {
+   background: none;
+   border: #071D34 solid 1px;
+   color: #071D34;
+}
+
+#myChart1 {
+     max-height: 600px;
+     margin-bottom: 50px;
+  }
+  .all-orders {
+     display: flex;
+     justify-content: space-between;
+     margin-bottom: 20px;
+     width: 100%;
+  }
+  .all-orders-title ,  .today-orders-title {
+     font-size: 1.7vw;
+  }
+  .all-orders-number , .today-orders-number{
+     width: max-content;
+     margin: 5px  auto;
+     font-size: 3vw;
+  }
+  .all-orders-page-link-container {
+     width: 100%;
+     position: relative;
+     margin-bottom: 100px;
+  }
+  .all-orders-link {
+     position: absolute;
+     left: 50%;
+     transform: translate(-50%);
+  }
+  .all-orders-button {
+     cursor: pointer;
+     padding: 0.5vw 2.5vw;
+     font-size: 1.2vw;
+     background: #071D34;
+     color: #f8f8f8;
+     border: #071D34 solid 2px;
+     border-radius: 7px;
+  }
+  .all-orders-button:hover {
+    background: none;
+    color: #071D34;
+    border: #071D34 solid 2px;
+  }
+  .get-report-button {
+   cursor: pointer;
+   padding: 0.5vw 2.5vw;
+   font-size: 1.2vw;
+   background: #071D34;
+   color: #f8f8f8;
+   border: #071D34 solid 2px;
+   border-radius: 7px;
+  }
+

@@ -1,0 +1,19 @@
+{% extends 'base-main.html' %}
+{% load static %}
+{% block title_ %}
+	Books Hall | Pay Using Paypal
+{% endblock %}
+
+
+{% block content %}
+<div style="text-align:center;"><br><br><br><br><br><br>
+	<h1>Pay Using Paypal</h1>
+	<h5>PayPal only accept USD as payment currency, So the amount in EGP will be in USD as in CIB Bank</h5>
+	<h7>1 USD == {{usd_egp|floatformat:2}} EGP - Total cost {{usd_amount|floatformat:2}} USD</h7>
+	<br>
+	{{form.render}}<br><br><br><br><br><br>
+</div>
+{% endblock %}
+{% block script %}
+   <script src="{% static 'js/appShop.js' %}"></script> 
+{% endblock %}

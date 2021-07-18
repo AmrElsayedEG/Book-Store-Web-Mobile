@@ -1,0 +1,139 @@
+
+{% extends 'base-main.html' %}
+{% load static %}
+{% block extrafiles %} <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<link rel="stylesheet" href="{% static 'css/topper.css' %}">
+<script src="{% static 'js/topper.js' %}"></script>
+
+ {% endblock %}
+{% block title %} Books Hall | Register {% endblock %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/bubbles.css' %}">
+
+{% if signupmsg %}
+
+<script>
+Topper({
+	  title: 'One more step',
+	  text: 'Check your E-mail to activate your account.',
+	  style: 'success',
+	  type: 'top',
+	  autoclose: true
+	});
+</script>
+
+{% elif error %}
+<link rel="stylesheet" href="{% static 'css/topper.css' %}">
+<script src="{% static 'js/topper.js' %}"></script>
+<script>
+Topper({
+	  title: 'Error',
+	  text: 'Wrong Credentials or account not activated.',
+	  style: 'danger',
+	  type: 'top',
+	  autoclose: true
+	});
+</script>
+
+{% elif exist %}
+<link rel="stylesheet" href="{% static 'css/topper.css' %}">
+<script src="{% static 'js/topper.js' %}"></script>
+<script>
+Topper({
+	  title: 'Error',
+	  text: 'An account with this E-mail already registerd.',
+	  style: 'danger',
+	  type: 'top',
+	  autoclose: true
+	});
+</script>
+{% endif %}
+
+    <div class="login-page-content">
+        <div class="bubbles">
+            <img src="{% static 'img/bubble.png' %}">
+            <img src="{% static 'img/bubble.png' %}">
+            <img src="{% static 'img/bubble.png' %}">
+            <img src="{% static 'img/bubble.png' %}">
+            <img src="{% static 'img/bubble.png' %}">
+            <img src="{% static 'img/bubble.png' %}">
+            <img src="{% static 'img/bubble.png' %}">
+            <img src="{% static 'img/bubble.png' %}">
+            <img src="{% static 'img/bubble.png' %}">
+            <img src="{% static 'img/bubble.png' %}">
+            <img src="{% static 'img/bubble.png' %}">
+
+        </div>
+        <div class="container" id="container">
+            
+            <div class="form-container sign-up-container">
+
+                <form class="login-resgister-form" action="#" method="post" onsubmit="return checkEmail(this);">
+			{% csrf_token %}
+                    <h1 class="login-register-h1">Create Account</h1>
+                    
+                    <input class="login-resgister-input" type="email" name="email" placeholder="Email" required />
+                    <input class="login-resgister-input" name="password1" type="password" placeholder="Password" required />
+		    <input class="login-resgister-input" name="password2" type="password" placeholder="Password Again" required />
+			<input class="login-resgister-input" type="text" name="firstname" placeholder="First Name" required />
+			<input class="login-resgister-input" type="text" name="lastname" placeholder="Last Name" required />
+                    <button type="submit" name="signup-btn" class="submitting-login">Sign Up</button>
+                </form>
+            </div>
+            <div class="form-container sign-in-container">
+
+                <form class="login-resgister-form" action="#" method="post">
+			{% csrf_token %}
+                    <h1 class="login-register-h1">Sign in</h1>
+                    
+                    <input class="login-resgister-input" name="email" type="text" placeholder="Email" required />
+                    <input class="login-resgister-input" name="password" type="password" placeholder="Password" required />
+                    <a class="forgot-password-link" href="{% url 'accounts:password_reset' %}">Forgot your password?</a>
+                    <button type="submit" name="signin-btn" class="submitting-login">Sign In</button>
+                </form>
+            </div>
+            <div class="overlay-container">
+
+                <div class="overlay">
+                    <div class="overlay-panel overlay-left">
+                        <h1 class="login-register-h1">Welcome Back!</h1>
+                        <p class="login-p">To keep reading please login with your personal info</p>
+                        <button class="submitting-login ghost" id="signIn">Sign In</button>
+                    </div>
+                    <div class="overlay-panel overlay-right">
+                        <h1 class="login-register-h1">Hello!</h1>
+                        <p class="login-p">Enter your personal details and start reading with us</p>
+                        <button class="submitting-login ghost" id="signUp">Sign Up</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        
+        
+    </div>
+
+{% endblock %}
+{% block script %}
+    <script src="{% static 'js/appLogin.js' %}"></script>
+<script>
+function checkEmail(theForm) {
+    if (theForm.password1.value != theForm.password2.value)
+    {
+        Topper({
+	  title: 'Error',
+	  text: 'Password Dont Match.',
+	  style: 'danger',
+	  type: 'top',
+	  autoclose: false
+	});
+        return false;
+    } else {
+        return true;
+    }
+}
+//-->
+</script>
+</script>
+	
+{% endblock %}

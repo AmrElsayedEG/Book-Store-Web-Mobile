@@ -1,0 +1,204 @@
+{% extends 'base-index.html' %}
+{% load static %}
+
+
+{% block extrafiles %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<link rel="stylesheet" href="{% static 'css/topper.css' %}">
+<script src="{% static 'js/topper.js' %}"></script>
+
+{% endblock %}
+
+{% block title %} Books Hall {% endblock %}
+{% block content %}
+
+
+    <div class="home-page">
+        <section class="home-first-section">
+            <div class="home-first-section-content">
+                <div class="home-left-container">
+                    <div class="home-textbox">
+                        <h1 class="h1">A good mind set<br>Is achievable with </h1>
+                        <h1 class="Reading">Reading<span class="dot">.</span></h1>
+                    </div>
+                   
+                    <div class="shop-Smedia">
+                        <button class="shopBtn-home"><a href="{% url 'main:all_books' %}">Shop</a></button>
+			{% if website_layout.twitter %}
+                        <a href="{{website_layout.twitter}}"><div class="home-social-1stS"><i  class="fab fa-twitter"></i></div></a> 
+			{% endif %}
+			{% if website_layout.facebook %}
+                        <a href="{{website_layout.facebook}}"><div class="home-social-1stS"><i class="fab fa-facebook-f"></i></div></a>
+			{% endif %}
+			{% if website_layout.instagram %}
+                        <a href="{{website_layout.instagram}}"><div class="home-social-1stS"><i class="fab fa-instagram"></i></div></a>   
+			{% endif %} 
+                    </div>
+                    </div>
+                <div class="home-right-container">
+                    <div class="circle">
+                        <a href="{% url 'main:book' ad.slug %}"><img class="hero-img " src="{{ ad.main_image.url }}" alt="No Book Promotion"></a>
+                    </div>
+                </div>
+                
+            </div>      
+        </section>
+        <section class="home-second-section">
+            <div class="bestseller-content">
+                <div class="best-sellers-title-HP">
+                    Bestsellers
+                </div>
+                <div class="best-sellers-Smedia-HP">
+                    <div class="social-2nd-section-list-HP">
+	                {% if website_layout.twitter %}
+                        <a href="{{website_layout.twitter}}"><div class="home-social-2ndS"><i  class="fab fa-twitter"></i></div></a> 
+			{% endif %}
+			{% if website_layout.facebook %}
+                        <a href="{{website_layout.facebook}}"><div class="home-social-2ndS"><i class="fab fa-facebook-f"></i></div></a>
+			{% endif %}
+			{% if website_layout.instagram %}
+                        <a href="{{website_layout.instagram}}"><div class="home-social-2ndS"><i class="fab fa-instagram"></i></div></a> 
+			{% endif %}
+                    </div>
+                    <div class="best-sellers-HP">
+			{% for book in top_sellers %}
+                        <div class="book-container-HP">
+                            <a href="{% url 'main:book' book.slug %}"><img  class="bestseller-book-img-HP" src="{{ book.main_image.url }}" alt="Book Image"></a> 
+                             <div class="bestseller-book-info-IA-HP">
+                                 <ul class="bestseller-book-info-HP">
+                                     <li class="bestseller-book-title-HP">{{ book.title }}</li>
+                                     <li class="bestseller-book-author-HP">{{ book.author }}</li>
+                                   <div class="price-container">
+					{% if book.discount_price %}
+                                       <li class="bestseller-book-price-HP" style="text-decoration: line-through; text-decoration-thickness: 15%;"><span>EGP</span>{{ book.price }}</li>
+                                       <li class="bestseller-discount-price-HP" ><span>EGP</span>{{ book.discount_price }}</li>
+					{% else %}
+				       <li class="bestseller-book-price-HP"><span>EGP</span>{{ book.price }}</li>
+					{% endif %}
+                                    </div>  
+                                 </ul>
+                                 <ul class="bestseller-book-IA-HP">
+                                    <li><a class="wishlist-btn" id="{{ book.id }}"> {% if book.id in my_wishlist %}<i class="fas fa-bookmark"> {% else %}<i class="far fa-bookmark"> {% endif %}</i></a></li>
+                                     {% if book.in_stock_number > 0 and book.is_product_live == 1 %}<form method='post' action='{% url 'cart:cart_add' book.id %}'>{%csrf_token%}
+                            <button class="bestseller-add-to-cart-HP" type='submit'>
+                                +
+                            </button><input type="hidden" name="quantity" value="1">
+                         </form>{% endif %} 
+                                 </ul>
+                             </div>
+                         </div>
+                         {% endfor %}
+                    </div>
+                </div>
+            </div>
+            <div class="hero-book-HP">
+                <div class="hero-left-side-HP">
+                    <div class="author-img-info-HP">
+                        <img src="{{ ad.author.author_picture.url }}" class="author-img-HP" alt="Author Pic">
+                        <ul class="book-info-list-HP" >
+                            <li class="book-info-item-HP"><span>Author :</span> {{ ad.author.author_name }}</li>
+                            <li class="book-info-item-HP"><span>Release date :</span> {{ ad.release_year }}</li>
+                            <li class="book-info-item-HP"><span>Genre :</span> {{ ad.category }}</li>
+                        </ul>
+                    </div>
+                    <div class="book-name-HP">
+                        {{ ad.title }}
+                    </div>
+                    <div class="book-description-HP">
+                       {{ ad.description|slice:"250" }} {% if ad.description|length > 250 %}...{% endif %}
+                    </div>
+                </div>
+                <img src="{{ ad.main_image.url }}" alt="" class="hero-book-img-HP">
+               
+            </div>
+            <div class="new-arrivals-content-HP">
+                <div class="new-arrivals-title-HP">
+                    New Arrivals
+                </div>
+                <div class="new-arrivals-HP">
+			{% for book in new_arrivals %}
+                    <div class="book-container-NA-HP">
+                        <a href="{% url 'main:book' book.slug %}"><img  class="new-arrival-book-img-HP" src="{{ book.main_image.url }}" alt=""></a> 
+                         <div class="new-arrival-book-info-IA-HP">
+                             <ul class="new-arrival-book-info-HP">
+                                 <li class="new-arrival-book-title-HP">{{ book.title }}</li>
+                                 <li class="new-arrival-book-author-HP">{{ book.author }}</li>
+                                 <div class="price-container">
+					{% if book.discount_price %}
+                                    <li class="new-arrival-book-price-HP" style="text-decoration: line-through; text-decoration-thickness: 15%;" ><span>EGP</span>{{ book.price }}</li>
+                                    <li class="new-arrival-discount-price-HP"><span>EGP</span>{{ book.discount_price }}</li>
+					{% else %}
+				    <li class="new-arrival-book-price-HP"><span>EGP</span>{{ book.price }}</li>
+					{% endif %}
+                                 </div>
+                                 
+                             </ul>
+                             <ul class="new-arrival-book-IA-HP">
+                                 <li><a class="wishlist-btn" id="{{ book.id }}"> {% if book.id in my_wishlist %}<i class="fas fa-bookmark"> {% else %}<i class="far fa-bookmark"> {% endif %}</i></a></li>
+                                {% if book.in_stock_number > 0 and book.is_product_live == 1 %} <form method='post' action='{% url 'cart:cart_add' book.id %}'>{%csrf_token%}
+                            <button class="new-arrival-add-to-cart-HP" type='submit'>
+                                +
+                            </button><input type="hidden" name="quantity" value="1">
+                         </form> {% endif %}
+                             </ul>
+                         </div>
+                     </div>
+			{% endfor %}
+                     
+                </div>
+            </div>
+            <a class="view-all-link" href="{% url 'main:all_books' %}">
+                <div class="view-all-HP">
+                    View all
+                </div>
+            </a>
+        </section>
+        
+    </div>
+
+
+<!-- AJAX REQUEST -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+function abs(title,msg,color){
+Topper({
+	  title: title,
+	  text: msg,
+	  style: color,
+	  type: 'top',
+	  autoclose: true
+	});
+}
+</script>
+<script>
+// AJAX CALL
+$('.wishlist-btn').click(function(){
+{% if user.is_authenticated %}
+$.ajax({
+             type: "POST",
+             url: "{% url 'accounts:wish-req' %}",
+             data: {'wishlist-id': this.id,'csrfmiddlewaretoken': '{{ csrf_token }}'},
+             dataType: "json",
+             context: this,
+             success: function(response) {
+		if(response.status == 'success'){
+		$("#"+ this.id +" i.far").removeClass("far").addClass("fas");
+		abs('Done', 'Item addd to your wishlist.', 'success');
+		}
+		else{
+		$("#"+ this.id +" i.fas").removeClass("fas").addClass("far");
+		abs('Done', 'Item removed from your wishlist.', 'danger');
+                  }  
+
+
+              }
+
+        });
+{% else %}
+abs('Error', 'You need to login to add to WishList', 'danger');
+{% endif %}
+  })
+</script>
+
+
+{% endblock %}

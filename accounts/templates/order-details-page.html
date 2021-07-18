@@ -1,0 +1,52 @@
+{% extends 'base-main.html' %}
+{% load static %}
+{% block title %} Books Hall | Order Detail {% endblock %}
+{% block content %}
+    <div class="order-details-page">
+        <h1>Order : #{{ orders.id }}</h1>
+        <table class="order-table">
+            <tr>
+                <th>Item</th>
+                <th>Quantity</th>
+                <th>Total price</th>
+            </tr>
+		{% for item in items %}
+            <tr>
+                <td>{{item.product.title}}</td>              
+                <td>{{item.quantity}}</td>
+                <td><span>EGP</span>{{item.get_cost}}</td>
+            </tr>
+\		{% endfor %}
+        </table>
+	<h3> Created : {{orders.created|date:'m-d-Y'}} </h3>
+        {% if orders.used_coupon == 'Yes' %}
+    <h3>Coupon Discount : {{orders.coupon.discount_percentage}}%</h3>
+        {% endif %}
+    <h3> Shipping Fees : {{ orders.get_shipping_fees }} EGP</h3>
+	<h3> Total Cost : {{ orders.get_total_cost }} EGP</h3>
+	<h3> Paid : {% if orders.is_paid %} <i class="fas fa-check" style="color:green"></i>  {% else %} <i class="fas fa-times" style="color:red"></i> {% endif %} </h3>
+        {% if not orders.is_paid %}<h3><a href="{% url 'payment:process' orders.id%}" style="color:green">Pay Using PayPal Now</a></h3> {% endif %}
+		{% if orders.order_status == 'Waiting' %}
+        <div class="order-status-OP" style="color:black;background: yellow;">Waiting</div>
+		{% elif orders.order_status == 'Delivering' %}
+        <div class="order-status-OP" style="background: green;">Delivering</div>
+		{% elif orders.order_status == 'Delivered' %}
+        <div class="order-status-OP" style="background: green;">Delivered</div>
+		{% else %}
+        <div class="order-status-OP" style="background: red;">canceled</div>
+		{% endif %}
+        <div class="personal-info-OP">
+            <div class="full-name-OP">
+                <input type="text" class="name-OP" value="{{ orders.customer_name }}" disabled>
+            </div>
+            <input type="text" class="full-input-OP" value="{{ orders.address_1 }}" disabled>
+            <input type="text" class="full-input-OP" value="{{ orders.address_2 }}" disabled>
+            <input type="text" class="full-input-OP" value="{{ orders.city }}" disabled>
+            <input type="text" class="full-input-OP" value="{{ orders.phone }}" disabled>
+        </div>
+	<button class="change-Pinfo-DBP" style="text-align:center; margin-bottom:1%"><a href="{% url 'accounts:dashboard' %}">Go Back </a></button>
+    </div>
+{% endblock %}
+{% block script %}
+<script src="{% static 'js/appOrderDetails.js' %}"></script>
+{% endblock %}

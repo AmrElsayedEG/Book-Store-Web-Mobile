@@ -1,0 +1,158 @@
+{% extends 'reports-base.html' %}
+{% block title %} Books Hall | Order Reports {% endblock %}
+{% block content %}
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    var input = document.getElementById('filter');
+    input.value = '{{filter_cursor}}';
+ });
+</script>
+    <div class="chart-container">
+      <div><canvas id="myChart1" width="763"></canvas></div>
+
+
+
+      <div class="all-orders">
+        <div class="all-orders-container">
+          <div class="all-orders-title">All orders</div>
+          <div class="all-orders-number">{{all_orders}}</div>
+        </div>
+        <div class="today-orders-container">
+          <div class="today-orders-title">today's orders</div>
+          <div class="today-orders-number">{{today_orders}}</div>
+        </div>
+      </div>
+      <div class="all-orders-page-link-container">
+        <a href="/admin/orders/order/" class="all-orders-link">
+          <button class="all-orders-button">View</button></a>
+
+      </div><hr>
+      <div style="padding-top:50px">
+        <form method="get">
+            <select style="padding: 5px 10px;" name="filter" id="filter">
+                <option value="Lweek">Last week</option>
+                <option value="Lmonth">Last month</option>
+                <option value="Tyear">This year</option>
+            </select>
+         <input class="filter-button" type="submit" value="Filter">
+        </form>
+      <canvas id="myChart" width="300"></canvas></div>
+      <a href="{% url 'reports:generate-report' 'order' %}" class="all-orders-link">
+        <button class="get-report-button"><i class="far fa-file-excel" style="color:white;"></i>  Get Report</button></a>
+      </div>
+    </div>
+
+    <script>
+      let myChart = document.getElementById('myChart').getContext('2d');
+
+      // Global Options
+      //Chart.defaults.global.defaultFontFamily = 'Lato';
+      //Chart.defaults.global.defaultFontSize = 18;
+     // Chart.defaults.global.defaultFontColor = '#777';
+
+      let massPopChart = new Chart(myChart, {
+        type:'bar', // bar, horizontalBar, pie, line, doughnut, radar, polarArea
+        data:{
+          labels:{{statistics.date|safe}},
+          datasets:[{
+            label:'Orders No.',
+            data:{{statistics.data}},
+            //backgroundColor:'green',
+            backgroundColor:[
+              'rgba(255, 99, 132, 0.6)',
+              'rgba(54, 162, 235, 0.6)',
+              'rgba(255, 206, 86, 0.6)',
+              'rgba(75, 192, 192, 0.6)',
+              'rgba(153, 102, 255, 0.6)',
+              'rgba(255, 159, 64, 0.6)',
+              'rgba(255, 99, 132, 0.6)'
+            ],
+            borderWidth:1,
+            borderColor:'#777',
+            hoverBorderWidth:3,
+            hoverBorderColor:'#000'
+          }]
+        },
+        options:{
+          title:{
+            display:true,
+            text:'Largest Cities In Massachusetts',
+            fontSize:25
+          },
+          legend:{
+            display:true,
+            position:'right',
+            labels:{
+              fontColor:'#000'
+            }
+          },
+          layout:{
+            padding:{
+              left:50,
+              right:0,
+              bottom:0,
+              top:0
+            }
+          },
+          tooltips:{
+            enabled:true
+          }
+        }
+      });
+
+      let myChart2 = document.getElementById('myChart1').getContext('2d');
+
+      // Global Options
+      //Chart.defaults.global.defaultFontFamily = 'Lato';
+      //Chart.defaults.global.defaultFontSize = 18;
+     // Chart.defaults.global.defaultFontColor = '#777';
+
+      let massPopChart2 = new Chart(myChart2, {
+        type:'pie', // bar, horizontalBar, pie, line, doughnut, radar, polarArea
+        data:{
+          labels:['Pending', 'Delivering', 'Delivered', 'Cancelled'],
+          datasets:[{
+            label:'Orders No.',
+            data: [{{pending_orders}}, {{delivering_orders}}, {{delivered_orders}}, {{cancelled_orders}}],
+            //backgroundColor:'green',
+            backgroundColor: [
+            '#B9AF12',
+            '#00BFFF',
+            '#16C429',
+            '#C41616'
+          ],
+            borderWidth:1,
+            borderColor:'#777',
+            hoverBorderWidth:3,
+            hoverBorderColor:'#000'
+          }]
+        },
+        options:{
+          title:{
+            display:true,
+            text:'Orders Number',
+            fontSize:25
+          },
+          legend:{
+            display:true,
+            position:'right',
+            labels:{
+              fontColor:'#000'
+            }
+          },
+          layout:{
+            padding:{
+              left:50,
+              right:0,
+              bottom:0,
+              top:0
+            }
+          },
+          tooltips:{
+            enabled:true
+          }
+        }
+      });
+    </script>
+
+{% endblock %}

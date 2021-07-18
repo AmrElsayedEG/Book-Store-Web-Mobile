@@ -1,0 +1,153 @@
+{% extends 'base-main.html' %}
+
+{% load static %}
+
+{% block extrafiles %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<link rel="stylesheet" href="{% static 'css/topper.css' %}">
+<script src="{% static 'js/topper.js' %}"></script>
+
+{% endblock %}
+
+{% block title %} Books Hall | {{author.author_name}} {% endblock %}
+
+{% block content %} 
+    <div class="author-page">
+        <div class="author-details-AP">
+            <img src="{{ author.author_picture.url }}"  class="author-img-AP" alt="{{ author.author_name }}">
+            <div class="author-info-peek-AP">
+                <ul class="author-info-list-AP">
+                    <li class="author-info-list-item-AP">
+                        <div class="author-name-text-AP" style="width:auto"> {{author.author_name}} </div>
+                        
+                    </li>
+                    <li class="author-info-list-item-AP">Nationality : {{author.author_nationality}}</li>
+                    <li class="author-info-list-item-AP">Was born : {{ author.born }}</li>
+                </ul>
+                <div class="quick-peek-AP">
+                    <h3 class="author-quick-peak-title-AP">Quick Peek</h3>
+                    <p>{{author.about_author|linebreaks}}</p>
+                </div>
+            </div>
+            
+        </div>
+        <div class="author-books-AP">
+	{% for book in page_obj %}
+            <div class="book-container-AP">
+                <a href="{% url 'main:book' book.slug %}"><img class="book-img-AP"src="{{ book.main_image.url }}" alt=""></a>
+                <div class="book-info-IA-AP">
+                    <ul class="book-info-AP">
+                        <li class="book-title-AP">{{ book.title }}</li>
+                        <li class="book-author-AP">{{ book.author }}</li>
+			 <div class="price-container">
+					{% if book.discount_price %}
+                                    <li class="book-price-AP" style="text-decoration: line-through; text-decoration-thickness: 15%;" ><span>EGP</span>{{ book.price }}</li>
+                                    <li class="new-arrival-discount-price-HP"><span>EGP</span>{{ book.discount_price }}</li>
+					{% else %}
+				    <li class="book-price-AP"><span>EGP</span>{{ book.price }}</li>
+					{% endif %}
+                                 </div>
+                    </ul>
+                    <ul class="book-IA-AP">
+                        <li><a class="wishlist-btn" id="{{ book.id }}"> {% if book.id in my_wishlist %}<i class="fas fa-bookmark AP"> {% else %}<i class="far fa-bookmark AP"> {% endif %}</i></a></li>
+                        {% if book.in_stock_number > 0 and book.is_product_live == 1 %}<form method='post' action='{% url 'cart:cart_add' book.id %}'>{%csrf_token%}
+                             <button class="add-to-cart-AP" type='submit'>
+                                +
+                            </button><input type="hidden" name="quantity" value="1">
+                        </form> {% endif %}
+                    </ul>
+                </div>
+            </div>
+	{% endfor %}
+
+            
+    </div>
+    </div>
+<div class="page-numbers">
+<!--
+        <li class="page-number">1</li>
+        <li class="page-number">2</li>
+        <li class="page-number">3</li>
+        <li class="page-number">4</li>
+        <li class="page-number">5</li>
+-->
+      {% if page_obj.paginator.num_pages != 1 and page_obj.number != 1 %}
+        <a class="btn btn-secondary" href="?page=1"><li class="page-number">First</li></a>
+        {% endif %}
+        {% for i in pagin_range %}
+        <a class="btn btn-secondary" href="?page={{i}}"><li class="page-number" {% if i == page_obj.number%} style="color:red" {%endif %}>{{i}}</li></a>
+        {% endfor %}
+        {% if page_obj.number != page_obj.paginator.num_pages and page_obj.paginator.num_pages != 1 %}
+        <a class="btn btn-secondary" href="?page={{ page_obj.paginator.num_pages }}"><li class="page-number">Last</li></a>
+        {% endif %}
+    <!--
+	<div class="pagination">
+    		<span class="step-links">
+        {% if page_obj.has_previous %}
+            <a class="btn btn-secondary" href="?page=1">&laquo; First | </a>
+            <a class="btn btn-danger" href="?page={{ page_obj.previous_page_number }}">Previous | </a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+        </span>
+
+        {% if page_obj.has_next %}
+            <a class="btn btn-primary" href="?page={{ page_obj.next_page_number }}"> | Next | </a>
+            <a class="btn btn-secondary" href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
+    </span>
+    -->
+  </div>
+    </div>
+
+
+<!-- AJAX REQUEST -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+function abs(title,msg,color){
+Topper({
+	  title: title,
+	  text: msg,
+	  style: color,
+	  type: 'top',
+	  autoclose: true
+	});
+}
+</script>
+<script>
+// AJAX CALL
+$('.wishlist-btn').click(function(){
+{% if user.is_authenticated %}
+$.ajax({
+             type: "POST",
+             url: "{% url 'accounts:wish-req' %}",
+             data: {'wishlist-id': this.id,'csrfmiddlewaretoken': '{{ csrf_token }}'},
+             dataType: "json",
+             context: this,
+             success: function(response) {
+		if(response.status == 'success'){
+		$("#"+ this.id +" i.far").removeClass("far").addClass("fas");
+		//alert("ADDED");
+		abs('Done', 'Item addd to your wishlist.', 'success');
+		}
+		else{
+		$("#"+ this.id +" i.fas").removeClass("fas").addClass("far");
+		abs('Done', 'Item removed from your wishlist.', 'danger');
+                  }  
+
+
+              }
+
+        });
+{% else %}
+abs('Error', 'You need to login to add to WishList', 'danger');
+{% endif %}
+
+  })
+</script>
+
+{% endblock %}
+{% block script %}
+    <script src="{% static 'js/appAuthor.js' %}"></script>
+{% endblock %}

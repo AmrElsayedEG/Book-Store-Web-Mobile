@@ -1,0 +1,75 @@
+{% extends 'reports-base.html' %}
+
+{% block title %} Books Hall | Product Statistics {% endblock %}
+
+{% block content %}
+    <div class="chart-container">
+        <canvas id="myChart"></canvas>
+        <div class="all-active__Products">
+            <div class="all-products-container">
+                <div class="all-product-title">All Products</div>
+                <div class="all-product-number">{{all_prod}}</div>
+            </div>
+            <div class="active-products-container">
+                <div class="active-product-title">Active Products</div>
+                <div class="active-product-number">{{active_prod}}</div>
+            </div>
+        </div>
+        <div class="all-active__products-page-link-container">
+            <a href="/admin/mainsite/product/" class="all-active__products-link">
+                <button class="all-active__products-button">View</button>
+            </a>
+        </div>
+        <div class="publishers-authors-container">
+            <div class="publishers-container">              
+                <div class="publishers-title">Publishers</div>
+                <div class="publishers-number">{{pub}}</div>
+                <a class="publishers-page__link" href="/admin/mainsite/publisher/">
+                    <button class="publishers-page__link-button">View</button>
+                </a>
+            </div>
+            <div class="authors-container">              
+                <div class="authors-title">Authors</div>
+                <div class="authors-number">{{auth}}</div>
+                <a class="authors-page__link" href="/admin/mainsite/author/">
+                    <button class="authors-page__link-button">View</button>
+                </a>
+            </div>
+        </div>
+    </div>
+
+<script>
+let myChart = document.getElementById('myChart').getContext('2d');
+let chartObj = new Chart(myChart, {
+    type: 'pie',
+    data: {
+        labels: ['Active Products', 'Unactive Products'],
+        datasets: [{
+            label: '# of Votes',
+            data: [{{active_prod}}, {{not_active_prod}}],
+            backgroundColor: [
+                '#071D34',
+                '#FF7F11'
+            ],
+            // borderColor: [
+            //     'rgba(255, 99, 132, 1)',
+            //     'rgba(54, 162, 235, 1)',
+            //     'rgba(255, 206, 86, 1)',
+            //     'rgba(75, 192, 192, 1)',
+            //     'rgba(153, 102, 255, 1)',
+            //     'rgba(255, 159, 64, 1)'
+            // ],
+            borderWidth: 1.2
+        }]
+    },
+    options:{
+        legend: {
+            position:'right'
+        }
+    }
+});
+</script>
+
+{% endblock %}
+
+

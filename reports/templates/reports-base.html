@@ -1,0 +1,45 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'css/stats.css' %}">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.2.0/chart.min.js"></script>
+    <title>{% block title %} {% endblock %}</title>
+</head>
+<body>
+    <nav class="stats-navbar">
+        <div class="stats-menu-btn">
+            <div class="stats-menu-btn-brgr"></div>
+        </div>
+    </nav>
+    <div class="stats-menu">
+        <div class="stats-menu-close">&times;</div>
+        <img class="stats-menu-logo" src="{{website_layout.logo_light.url}}" alt="">
+        <ul class="stats-menu-list">
+
+            <a href="{% url 'reports:home' %}"><li class="stats-menu-list-item">Home</li></a>
+            <a href="{% url 'reports:products' %}"><li class="stats-menu-list-item">Products statistics</li></a>
+            <a href="{% url 'reports:orders' %}"><li class="stats-menu-list-item">Orders Reports</li></a>
+            <a href="{% url 'reports:payments' %}"><li class="stats-menu-list-item">Payments Reports</li></a>
+            <a href="{% url 'reports:visitors' %}"><li class="stats-menu-list-item">Traffic Statistics</li></a>
+            <a href="/admin/"><li class="stats-menu-list-item">Admin Dashboard</li></a>
+        </ul>
+    </div>
+    {% block content %}
+    
+    {% endblock %}
+
+
+</body>
+<script src="{% static 'js/appStats.js' %}"></script>
+</html>
+
+
+

@@ -1,0 +1,13 @@
+{% autoescape off %}  
+
+<h3>Hi {{ user }},</h3>  <br>
+
+<div class='text-body' style='color:#7d7d62'>
+
+Please click on the link to confirm your registration, <br>
+{{ domain }}{% url 'accounts:activate' uidb64=uid token=token %}  <br>
+
+</div>
+<h6> If you think, it's not you, then just ignore this email. </h6> <br>
+
+{% endautoescape %}

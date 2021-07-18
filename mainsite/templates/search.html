@@ -1,0 +1,144 @@
+{% extends 'base-main.html' %}
+
+{% load static %}
+
+{% load static %}
+
+{% block extrafiles %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<link rel="stylesheet" href="{% static 'css/topper.css' %}">
+<script src="{% static 'js/topper.js' %}"></script>
+
+{% endblock %}
+
+
+{% block title %} Books Hall | Search {% endblock %}
+{% block content %}
+    
+    
+    <div class="shop-page">
+        
+        <div class="products-side-SP">
+	{% for books in page_obj %}
+           
+		<div class="book-container-SP">
+                <a href="{% url 'main:book' books.slug %}"><img  class="book-img-SP" src="{{ books.main_image.url }}" alt="Image"></a> 
+                 <div class="book-info-IA-SP">
+                     <ul class="book-info-SP">
+                         <li class="book-title-SP">{{ books.title }}</li>
+                         <li class="book-author-SP">{{ books.author }}</li>
+                         <div class="price-container">
+				{% if books.discount_price %}
+                            <li class="book-price-SP" style="text-decoration: line-through; text-decoration-thickness: 15%;"><span>EGP</span>{{ books.price }}</li>
+                            <li class="discount-price-SP">{{ books.discount_price }}</li>
+
+				{% else %}
+			    <li class="book-price-SP"><span>EGP</span>{{ books.price }}</li>
+				{% endif %}
+                         </div>  
+                     </ul>
+                     <ul class="book-IA-SP">
+                        <li><a class="wishlist-btn" id="{{ books.id }}"> {% if books.id in my_wishlist %}<i class="fas fa-bookmark SP"> {% else %}<i class="far fa-bookmark SP"> {% endif %}</i></a></li> 
+                        {% if books.in_stock_number > 0 and books.is_product_live == 1 %}<form method='post' action='{% url 'cart:cart_add' books.id %}'>{%csrf_token%}
+                            <button class="add-to-cart-SP" type='submit'>
+                                +
+                            </button><input type="hidden" name="quantity" value="1">
+                         </form> {% endif %}
+                     </ul>
+                 </div>
+             </div>
+	{% endfor %}
+
+        </div>
+    </div>
+    <div class="page-numbers">
+<!--
+        <li class="page-number">1</li>
+        <li class="page-number">2</li>
+        <li class="page-number">3</li>
+        <li class="page-number">4</li>
+        <li class="page-number">5</li>
+-->
+          {% if page_obj.paginator.num_pages != 1 and page_obj.number != 1 %}
+        <a class="btn btn-secondary" href="?page=1"><li class="page-number">First</li></a>
+        {% endif %}
+        {% for i in pagin_range %}
+        <a class="btn btn-secondary" href="?page={{i}}"><li class="page-number" {% if i == page_obj.number%} style="color:red" {%endif %}>{{i}}</li></a>
+        {% endfor %}
+        {% if page_obj.number != page_obj.paginator.num_pages and page_obj.paginator.num_pages != 1 %}
+        <a class="btn btn-secondary" href="?page={{ page_obj.paginator.num_pages }}"><li class="page-number">Last</li></a>
+        {% endif %}
+        <!--
+	<div class="pagination">
+    		<span class="step-links">
+        {% if page_obj.has_previous %}
+            <a class="btn btn-secondary" href="?page=1">&laquo; first</a>
+            <a class="btn btn-danger" href="?page={{ page_obj.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+        </span>
+
+        {% if page_obj.has_next %}
+            <a class="btn btn-primary" href="?page={{ page_obj.next_page_number }}">next</a>
+            <a class="btn btn-secondary" href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
+    </span>
+    -->
+  </div>
+    </div>
+
+
+
+
+<!-- AJAX REQUEST -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+function abs(title,msg,color){
+Topper({
+	  title: title,
+	  text: msg,
+	  style: color,
+	  type: 'top',
+	  autoclose: true
+	});
+}
+</script>
+<script>
+// AJAX CALL
+$('.wishlist-btn').click(function(){
+{% if user.is_authenticated %}
+$.ajax({
+             type: "POST",
+             url: "{% url 'accounts:wish-req' %}",
+             data: {'wishlist-id': this.id,'csrfmiddlewaretoken': '{{ csrf_token }}'},
+             dataType: "json",
+             context: this,
+             success: function(response) {
+		if(response.status == 'success'){
+		$("#"+ this.id +" i.far").removeClass("far").addClass("fas");
+		abs('Done', 'Item addd to your wishlist.', 'success');
+		}
+		else{
+		$("#"+ this.id +" i.fas").removeClass("fas").addClass("far");
+		abs('Done', 'Item removed from your wishlist.', 'danger');
+                  }  
+
+
+              }
+
+        });
+{% else %}
+abs('Error', 'You need to login to add to WishList', 'danger');
+{% endif %}
+
+  })
+</script>
+
+
+
+{% endblock %}
+{% block script %}
+   <script src="{% static 'js/appShop.js' %}"></script> 
+{% endblock %}

@@ -1,0 +1,124 @@
+{% extends 'reports-base.html' %}
+{% block title %} Books Hall | Payment Reports {% endblock %}
+{% block content %}
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    var input = document.getElementById('filter');
+    input.value = '{{filter_cursor}}';
+ });
+</script>
+    <div class="chart-container" style="padding-top: 50px;">
+        <form method="get">
+            <select style="padding: 5px 10px;" name="filter" id="filter">
+                <option value="Lweek">Last week</option>
+                <option value="Lmonth">Last month</option>
+                <option value="Tyear">This year</option>
+            </select>
+         <input class="filter-button" type="submit" value="Filter">
+        </form>
+        <canvas id="myChart"></canvas>
+        <div class="payment-shipping-info-container">
+             <h1 style="margin: auto; width: max-content;">All Payments</h1>
+            <div class="payment-shipping-info-row">
+                <div class="payment-shipping-info-row-left">
+                    <div class="OP-title">Payments Lifetime</div>
+                    <div class="OP-number">{{payment_lifetime}}</div>
+                </div>
+                <div class="payment-shipping-info-row-right">
+                    <div class="OP-title">Payment Lifetime (EGP)</div>
+                    <div class="OP-number">{{payment_lifetime_currency.cost__sum}}</div>
+                </div>
+            </div>
+
+            <div class="payment-shipping-info-row">
+                <div class="payment-shipping-info-row-left">
+                    <div class="OP-title">Payments today</div>
+                    <div class="OP-number">{{payment_today}}</div>
+                </div>
+                <div class="payment-shipping-info-row-right">
+                    <div class="OP-title">Payment today (EGP)</div>
+                    <div class="OP-number">{{payment_today_currency.cost__sum}}</div>
+                </div>
+            </div>
+            <hr>
+            <h1 style="margin: auto; width: max-content;padding-top:50px">Online Payments</h1>
+            <div class="payment-shipping-info-row">
+                <div class="payment-shipping-info-row-left">
+                    <div class="OP-title">Online Payments</div>
+                    <div class="OP-number">{{online_payment_lifetime}}</div>
+                </div>
+                <div class="payment-shipping-info-row-right">
+                    <div class=statistics_per_month_order"OP-title">Online Payment (EGP)</div>
+                    <div class="OP-number">{{online_payment_lifetime_currency.cost__sum}}</div>
+                </div>
+            </div>
+
+            <div class="payment-shipping-info-row">
+                <div class="payment-shipping-info-row-left">
+                    <div class="OP-title">Online Payments today</div>
+                    <div class="OP-number">{{online_payment_today}}</div>
+                </div>
+                <div class="payment-shipping-info-row-right">
+                    <div class="OP-title">Online Payment today (EGP)</div>
+                    <div class="OP-number">{{online_payment_today_currency.cost__sum}}</div>
+                </div>
+            </div>
+            <h1 style="margin: auto; width: max-content;">On Delivery Payments</h1>
+            <div class="payment-shipping-info-row">
+                <div class="payment-shipping-info-row-left">
+                    <div class="OP-title">Shipping Payments</div>
+                    <div class="OP-number">{{on_delivery_lifetime}}</div>
+                </div>
+                <div class="payment-shipping-info-row-right">
+                    <div class="OP-title">Shipping Payment (EGP)</div>
+                    <div class="OP-number">{{on_delivery_lifetime_currency.cost__sum}}</div>
+                </div>
+            </div>
+            <div class="payment-shipping-info-row">
+                <div class="payment-shipping-info-row-left">
+                    <div class="OP-title">Shipping Payments today</div>
+                    <div class="OP-number">{{on_delivery_today}}</div>
+                </div>
+                <div class="payment-shipping-info-row-right">
+                    <div class="OP-title">Shipping Payment today (EGP)</div>
+                    <div class="OP-number">{{on_delivery_today_currency.cost__sum}}</div>
+                </div>
+            </div>
+            
+            <a href="/admin/payment/payment/" class="payment-shipping-link"><button>View all</button></a>
+            <form action="{% url 'reports:generate-report' 'payment' %}">
+               <button><i class="far fa-file-excel"></i> Get report</button>
+            </form>
+
+        </div>
+    </div>
+{{statistics.dates}}
+    <script>
+        let myChart = document.getElementById('myChart').getContext('2d');
+        let chartObj = new Chart(myChart, {
+            type: 'bar',
+            data: {
+                labels: {{statistics.date|safe}}, // relative to the form value
+                datasets: [{
+                    label: 'Total EGP',
+                    data: {{statistics.data}}, // relative to the form value
+                    backgroundColor: [ 
+                        '#071D34',
+                        '#FF7F11',
+                        '#B10F2E',
+                        '#570000',
+                        '#7FB069',
+                    ],
+                    borderWidth: 1.2
+                }]
+            },
+            options:{
+                legend: {
+                    position:'right'
+                }
+            }
+        });
+        </script>
+
+
+{% endblock %}
