@@ -1,5 +1,5 @@
 from rest_framework.response import Response
-from .hash import encode
+from api.hash import encode
 from rest_framework.views import APIView
 
         

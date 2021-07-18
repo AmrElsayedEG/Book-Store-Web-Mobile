@@ -162,9 +162,9 @@ CSRF_COOKIE_HTTPONLY = True
 
 #Email Settings
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'bookshallstore@gmail.com'
-EMAIL_HOST_PASSWORD = 'iquugdlauyumbzwe' #BooksHallStore
+EMAIL_HOST = ''
+EMAIL_HOST_USER = ''
+EMAIL_HOST_PASSWORD = ''
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
@@ -186,7 +186,7 @@ SESSION_SERIALIZER = 'django.contrib.sessions.serializers.PickleSerializer'
 ##    }
 
 
-PAYPAL_RECEIVER_EMAIL = 'sb-2hpar2234071@personal.example.com'
+PAYPAL_RECEIVER_EMAIL = ''
 
 #PAYPAL_TEST = True
 
@@ -212,5 +212,7 @@ THROTTLE_BACKEND = 'throttle.backends.cache.CacheBackend'
 THROTTLE_ENABLED = True
 
 GOOGLE_ANALYTICS = {
-    'google_analytics_id': 'UA-196102770-1',
+    'google_analytics_id': '',
 }
+
+DEFAULT_AUTO_FIELD='django.db.models.AutoField'

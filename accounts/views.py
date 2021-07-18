@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect, render_to_response, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from accounts.models import Profile
@@ -15,7 +15,6 @@ from django.template.loader import render_to_string
 from django.db.models.query_utils import Q
 from django.core.mail import BadHeaderError
 from django.http import HttpResponse
-from django.contrib.sites.shortcuts import get_current_site
 from django.contrib.auth import get_user_model
 from django.core.mail import EmailMultiAlternatives
 from django.urls import reverse
@@ -26,7 +25,7 @@ import json
 UserModel = get_user_model()
 from .tokens import account_activation_token
 from django.contrib.auth.decorators import login_required
-from bookstore.settings import SITE_URL
+from django.conf import settings
 from .models import Profile
 def signpage(request):
     if request.user.is_authenticated:
@@ -163,7 +162,7 @@ def password_reset_request(request):
                         email_template_name = "password/password_reset_subject.html"
                         c = {
 					    "email":user.email,
-					    'domain':SITE_URL,
+					    'domain':settings.SITE_URL,
 					    'site_name': 'TriTlas | Egypt',
 					    "uid": urlsafe_base64_encode(force_bytes(user.pk)),
 					    "user": user,

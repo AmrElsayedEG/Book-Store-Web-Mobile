@@ -8,7 +8,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.models import User
 from django.http import JsonResponse
 from rest_framework.authtoken.models import Token
-from bookstore.settings import SITE_URL
+from django.conf import settings
 from django.core.mail import EmailMultiAlternatives
 
 @csrf_exempt
@@ -22,7 +22,7 @@ def forget_password(request):
                 email_template_name = "password/password_reset_subject.html"
                 c = {
 					    "email":user.email,
-					    'domain':SITE_URL,
+					    'domain':settings.SITE_URL,
 					    'site_name': 'TriTlas | Egypt',
 					    "uid": urlsafe_base64_encode(force_bytes(user.pk)),
 					    "user": user,

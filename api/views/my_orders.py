@@ -1,4 +1,4 @@
-from .serializers import MyOrderNewSerializer
+from api.serializers import MyOrderNewSerializer
 from orders.models import order
 from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated

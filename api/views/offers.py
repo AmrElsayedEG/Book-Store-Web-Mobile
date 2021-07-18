@@ -1,4 +1,4 @@
-from .serializers.products import AllProductsSerializer
+from api.serializers import AllProductsSerializer
 from mainsite.models import Product
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.views import APIView

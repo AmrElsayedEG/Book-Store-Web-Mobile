@@ -1,5 +1,5 @@
 from django.contrib.auth.models import User
-from .serializers import OrderSerializer, OrderItemSerializer
+from api.serializers import OrderSerializer, OrderItemSerializer
 from orders.models import order, OrderItem
 from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated

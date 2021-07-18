@@ -1,5 +1,5 @@
 from django.contrib.auth.models import User
-from .serializers import AllProductsSerializer, AllCategorySerializer
+from api.serializers import AllProductsSerializer, AllCategorySerializer
 from mainsite.models import Product, Category
 from rest_framework import generics
 from rest_framework.pagination import PageNumberPagination

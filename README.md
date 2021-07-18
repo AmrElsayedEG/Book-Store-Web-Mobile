@@ -18,9 +18,11 @@ Project is created with:
 * Django Rest Framework
 	
 ## Run
-To run this project, install it locally and run this command
+To run this project locally, run this command
 
 ```
 $ pip install -r requirements.txt
-$ python manage.py runserver
+$ python manage.py makemigrations --settings=bookstore.settings.local
+$ python manage.py migrate --settings=bookstore.settings.local
+$ python manage.py runserver --settings=bookstore.settings.local
 ```

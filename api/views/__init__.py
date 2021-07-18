@@ -1,6 +1,6 @@
 from .register import RegisterAPI
 from .category import All_CategoriesAPI, One_CategoryProductsAPI
-from .products import All_ProductsAPI, OneProductAPI
+from .product import All_ProductsAPI, OneProductAPI
 from .offers import OffersAPI
 from .order import orderAPI, orderItemAPI
 from .coupon import CouponAPI

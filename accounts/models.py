@@ -9,7 +9,7 @@ from django.contrib.auth.tokens import default_token_generator
 from django.template.loader import render_to_string
 from django.core.mail import BadHeaderError, EmailMultiAlternatives
 from .tokens import account_activation_token
-from bookstore.settings import SITE_URL
+from django.conf import settings
 from mainsite.models import Product
 from utils import CountryListChoices
 
@@ -32,7 +32,7 @@ def create_profile(sender , **kwargs):
         mail_subject = 'Activate your account.'
         message = render_to_string('acc_active_email.html', {
                 'user': kwargs['instance'].first_name,
-                'domain': SITE_URL,
+                'domain': settings.SITE_URL,
                 'uid': urlsafe_base64_encode(force_bytes(kwargs['instance'].pk)),
                 'token': account_activation_token.make_token(kwargs['instance']),
             })

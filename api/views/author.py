@@ -1,4 +1,4 @@
-from .serializers import AllProductsSerializer, AllAuthorSerializer
+from api.serializers import AllProductsSerializer, AllAuthorSerializer
 from mainsite.models import Product, author
 from rest_framework import generics
 from rest_framework.pagination import PageNumberPagination

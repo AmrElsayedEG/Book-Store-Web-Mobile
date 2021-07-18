@@ -14,8 +14,8 @@ class OrderStatusChoices(models.TextChoices):
     WAITING = 'Waiting', _('Waiting')
     Delivering = 'Delivering', _('Delivering')
     Delivered = 'Delivered', _('Delivered')
-    Canceled = 'Canceled', -('Canceled')
+    Canceled = 'Canceled', _('Canceled')
 
 class YesNoChoices(models.IntegerChoices):
     YES = 1, _('Yes')
-    NO = 2, _('NO')
+    NO = 2, _('No')

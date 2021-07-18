@@ -1,7 +1,7 @@
 from mainsite.recommendationsystem import recommendation
 from django.http import JsonResponse
 from mainsite.models import Product
-from .serializers import AllProductsSerializer
+from api.serializers import AllProductsSerializer
 from rest_framework.response import Response
 
 def aiapi(reuqest,id):

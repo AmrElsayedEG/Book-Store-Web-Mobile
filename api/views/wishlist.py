@@ -1,4 +1,4 @@
-from .serializers import WishlistSerializer
+from api.serializers import WishlistSerializer
 from rest_framework.permissions import IsAuthenticated
 from accounts.models import users_wishlist
 from rest_framework.authtoken.models import Token
